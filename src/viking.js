@@ -81,12 +81,37 @@ class War {
 
         if(randomViking.health<=0){
             this.vikingArmy.splice(rvIndex, 1);
-            return `${this.name} has died in act of combat`;
+            return `${this.vikingArmy.name} has died in act of combat`;
         }else{
             return `${this.vikingArmy[rvIndex].name} has received ${this.saxonArmy[rsIndex].strength} points of damage`;
-      
         }
-        
+    }
+
+    // attack refactor - could be used for viking or saxon
+    // if this method is used, the vikingAttack() and saxonAttack() methods will no longer be used
+    generalAttackMethod(attacker){
+        const rvIndex = Math.floor(Math.random() * this.vikingArmy.length);
+        const rsIndex = Math.floor(Math.random() * this.saxonArmy.length);
+        const randomViking = this.vikingArmy[rvIndex];
+        const randomSaxon = this.saxonArmy[rsIndex];
+
+        if(attacker === "viking"){
+            randomSaxon.receiveDamage(randomViking.strength);
+            if(randomViking.health<=0){
+                this.vikingArmy.splice(rvIndex, 1);
+                return `${this.vikingArmy.name} has died in act of combat`;
+            }else{
+                return `${this.vikingArmy[rvIndex].name} has received ${this.saxonArmy[rsIndex].strength} points of damage`;
+            }
+        } else {
+            randomViking.receiveDamage(randomSaxon.strength);
+            if(randomViking.health<=0){
+                this.vikingArmy.splice(rvIndex, 1);
+                return `${this.vikingArmy.name} has died in act of combat`;
+            }else{
+                return `${this.vikingArmy[rvIndex].name} has received ${this.saxonArmy[rsIndex].strength} points of damage`;
+            }
+        }
     }
 
     showStatus(){
